@@ -20,6 +20,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+// Khai báo Folder Ảnh Sản phẩm để dc hiển thị ra view
+app.use('/anhsanpham', express.static('anhsanpham'));
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler

@@ -1,11 +1,79 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
   <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <title>Upload File</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- Dropzone -->
+    <link rel="stylesheet" href="/stylesheets/dropzone.css">  
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+      <div class="container ">
+        <div class="jumbotron">
+          <h1 class="display-3 text-center">Upload Nhiều file</h1>
+          <p class="lead text-center">Và lưu và MongoDb</p>
+          <hr class="my-2">
+          <div class="uploadoday">
+            <form id="upload-widget" method="post" action="/uploadfile" class="dropzone">
+            </form>
+            <form action="upsanpham" method="post">
+              <div class="form-group">
+                <label for="ten">Tên Sản Phẩm</label>
+                <input type="text" name="ten" id="ten" class="form-control" placeholder="Nhập tên sản phẩm" aria-describedby="helpId">
+                <small id="helpId" class="text-muted">Nhập tên sản phẩm</small>
+              </div>
+              <div class="form-group">
+                <label for="ten">Giá Sản Phẩm</label>
+                <input type="text" name="gia" id="ten" class="form-control" placeholder="Nhập tên sản phẩm" aria-describedby="helpId">
+                <small id="helpId" class="text-muted">Nhập giá sản phẩm</small>
+              </div>
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+      <!-- Dropzone -->
+      <script type="text/javascript" src="/javascripts/dropzone.js"></script>
+      <script>
+        Dropzone.options.uploadWidget = {
+          paramName: 'file',
+          maxFilesize: 1, // MB
+          maxFiles: 1,
+          dictDefaultMessage: 'Drag an image here to upload, or click to select one',
+          headers: {
+            'x-csrf-token': document.querySelectorAll('meta[name=csrf-token]')[0].getAttributeNode('content').value,
+          },
+          acceptedFiles: 'image/*',
+          init: function () {
+            this.on('success', function (file, resp) {
+              console.log(file);
+              console.log(resp);
+            });
+            this.on('thumbnail', function (file) {
+              if (file.width < 640 || file.height < 480) {
+                file.rejectDimensions();
+              }
+              else {
+                file.acceptDimensions();
+              }
+            });
+          },
+          accept: function (file, done) {
+            file.acceptDimensions = done;
+            file.rejectDimensions = function () {
+              done('The image must be at least 640 x 480px')
+            };
+          }
+        };
+      </script>
   </body>
 </html>
